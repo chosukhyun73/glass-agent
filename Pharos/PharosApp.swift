@@ -1,16 +1,16 @@
-//
-//  PharosApp.swift
-//  Pharos
-//
-//  Created by Macbook Pro M5 on 5/27/26.
-//
-
 import SwiftUI
 
 @main
 struct PharosApp: App {
+    @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
+
+    init() {
+        print("[Pharos] PharosApp.init() start")
+    }
+
     var body: some Scene {
-        WindowGroup {
+        print("[Pharos] PharosApp.body evaluated")
+        return WindowGroup {
             ContentView()
         }
     }

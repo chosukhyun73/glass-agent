@@ -1,9 +1,5 @@
 <p align="center">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="assets/logo-dark.png">
-    <source media="(prefers-color-scheme: light)" srcset="assets/logo-light.png">
-    <img src="assets/logo-light.png" alt="Glass agent logo" width="240">
-  </picture>
+  <img src="assets/logo-light.png" alt="Glass agent logo" width="240">
 </p>
 
 <h1 align="center">Glass agent</h1>

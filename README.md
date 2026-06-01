@@ -4,8 +4,6 @@
 
 <h1 align="center">Glass agent</h1>
 
-<p align="center"><em>(formerly: Pharos)</em></p>
-
 <p align="center">
   A voice AI companion for Meta Ray-Ban Display smart glasses,<br>
   powered by <a href="https://github.com/NousResearch/hermes-agent">Hermes Agent</a>.

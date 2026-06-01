@@ -1,15 +1,15 @@
 import SwiftUI
 
 @main
-struct PharosApp: App {
+struct GlassAgentApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
 
     init() {
-        print("[Pharos] PharosApp.init() start")
+        print("[GlassAgent] App.init() start")
     }
 
     var body: some Scene {
-        print("[Pharos] PharosApp.body evaluated")
+        print("[GlassAgent] App.body evaluated")
         return WindowGroup {
             ContentView()
         }

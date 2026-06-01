@@ -33,11 +33,31 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         open url: URL,
         options: [UIApplication.OpenURLOptionsKey: Any] = [:]
     ) -> Bool {
+        dlog("AppDelegate open url scheme=\(url.scheme ?? "nil") host=\(url.host ?? "nil")")
         Task {
             do {
                 _ = try await Wearables.shared.handleUrl(url)
             } catch {
-                print("Wearables URL 처리 오류: \(error)")
+                dlog("Wearables URL 처리 오류: \(error)")
+            }
+        }
+        return true
+    }
+
+    // Universal Link 콜백 (Meta AI 앱이 등록 완료 후 https URL로 우리 앱을 깨움)
+    func application(
+        _ application: UIApplication,
+        continue userActivity: NSUserActivity,
+        restorationHandler: @escaping ([UIUserActivityRestoring]?) -> Void
+    ) -> Bool {
+        guard userActivity.activityType == NSUserActivityTypeBrowsingWeb,
+              let url = userActivity.webpageURL else { return false }
+        dlog("AppDelegate universal link url=\(url.absoluteString)")
+        Task {
+            do {
+                _ = try await Wearables.shared.handleUrl(url)
+            } catch {
+                dlog("Wearables universal link 처리 오류: \(error)")
             }
         }
         return true

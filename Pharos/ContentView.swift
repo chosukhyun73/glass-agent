@@ -2,7 +2,7 @@ import SwiftUI
 import Combine
 import MWDATCore
 
-enum PharosMode { case off, waking, active }
+enum AgentMode { case off, waking, active }
 
 struct ContentView: View {
 
@@ -12,7 +12,7 @@ struct ContentView: View {
     @StateObject private var debugLog = DebugLog.shared
     @StateObject private var camera = GlassCameraManager()
     @State private var serverHost = UserDefaults.standard.string(forKey: "serverHost") ?? "100.112.206.61"
-    @State private var mode: PharosMode = .off
+    @State private var mode: AgentMode = .off
     @State private var inactivityTimer: Timer?
     @State private var responseMode = "continuous"
     @State private var showWakeWordSheet = false
@@ -25,7 +25,7 @@ struct ContentView: View {
     }
 
     var body: some View {
-        let _ = print("[Pharos] ContentView.body rendered")
+        let _ = print("[GlassAgent] ContentView.body rendered")
         return NavigationStack {
             VStack(spacing: 0) {
                 statusBar
@@ -71,7 +71,7 @@ struct ContentView: View {
                 Divider()
                 bottomBar
             }
-            .navigationTitle("Pharos")
+            .navigationTitle("Glass agent")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar { toolbarItems }
         }
@@ -264,9 +264,12 @@ struct ContentView: View {
                 if camera.registrationState != .registered {
                     Button("글래스 앱 등록", systemImage: "link") {
                         Task {
+                            dlog("Registration: button tapped, current state=\(camera.registrationState)")
                             do {
                                 try GlassCameraManager.ensureConfigured()
+                                dlog("Registration: ensureConfigured OK")
                                 try await Wearables.shared.startRegistration()
+                                dlog("Registration: startRegistration returned without throwing")
                             } catch {
                                 dlog("Registration error: \(error)")
                             }

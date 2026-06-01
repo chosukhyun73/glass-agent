@@ -93,9 +93,10 @@ class WakeWordManager: ObservableObject {
 
             let inputNode = audioEngine.inputNode
             inputNode.removeTap(onBus: 0)
-            // [weak self] 캡처 — 새 recognitionRequest로 자동 전달됨
-            inputNode.installTap(onBus: 0, bufferSize: 1024,
-                                 format: inputNode.outputFormat(forBus: 0)) { [weak self] buffer, _ in
+            // 하드웨어 실제 input format 사용 — HFP(16k) 등 변경 따라감
+            let tapFormat = inputNode.inputFormat(forBus: 0)
+            dlog("WakeWord installTap format=\(tapFormat.sampleRate)Hz ch=\(tapFormat.channelCount)")
+            inputNode.installTap(onBus: 0, bufferSize: 1024, format: tapFormat) { [weak self] buffer, _ in
                 self?.recognitionRequest?.append(buffer)
             }
 

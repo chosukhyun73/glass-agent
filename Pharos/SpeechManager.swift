@@ -80,7 +80,8 @@ class SpeechManager: ObservableObject {
 
         let inputNode = audioEngine.inputNode
         inputNode.removeTap(onBus: 0)
-        let format = inputNode.outputFormat(forBus: 0)
+        let format = inputNode.inputFormat(forBus: 0)
+        dlog("Speech installTap format=\(format.sampleRate)Hz ch=\(format.channelCount)")
         inputNode.installTap(onBus: 0, bufferSize: 1024, format: format) { buffer, _ in
             request.append(buffer)
         }
